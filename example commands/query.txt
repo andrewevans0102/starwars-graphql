@@ -3,6 +3,6 @@ query {
   	name
   	species
   	affiliation
-  	weapons
+  	weapon
 	}
 }

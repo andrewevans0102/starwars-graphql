@@ -3,7 +3,7 @@ mutation {
     name: "Darth Vadar"
     species: "Human",
     affiliation: EMPIRE,
-    weapons: ["lightsaber"]
+    weapon: "lightsaber"
   ) {
     name
   }
