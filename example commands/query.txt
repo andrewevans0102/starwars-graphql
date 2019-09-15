@@ -1,0 +1,8 @@
+query {
+  characters {
+  	name
+  	species
+  	affiliation
+  	weapons
+	}
+}

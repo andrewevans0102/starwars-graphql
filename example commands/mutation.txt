@@ -1,0 +1,10 @@
+mutation {
+  post(
+    name: "Darth Vadar"
+    species: "Human",
+    affiliation: EMPIRE,
+    weapons: ["lightsaber"]
+  ) {
+    name
+  }
+}
