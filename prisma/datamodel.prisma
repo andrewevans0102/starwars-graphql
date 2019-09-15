@@ -1,0 +1,12 @@
+type Character {
+  id: ID! @id
+  name: String!
+  species: String!
+  affiliation: affiliation!
+  weapon: String!
+}
+
+enum affiliation {
+  REBEL_ALLIANCE
+  EMPIRE
+}

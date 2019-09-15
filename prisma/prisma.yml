@@ -1,0 +1,11 @@
+# HTTP Endpoint
+#endpoint: ""
+endpoint: https://us1.prisma.sh/andrew-evans-79cdd1/starwars-graphql/dev
+
+# location of the datamodel file
+datamodel: datamodel.prisma
+
+# identifiy the language and location of the Prisma Client
+generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma-client

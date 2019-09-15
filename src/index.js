@@ -71,6 +71,7 @@
 // server.start(() => console.log(`Server is running on http://localhost:4000`));
 
 const { GraphQLServer } = require("graphql-yoga");
+const { prisma } = require("./generated/prisma-client");
 
 // // Type Definition
 // const typeDefs = `
@@ -87,6 +88,13 @@ const { GraphQLServer } = require("graphql-yoga");
 // };
 //
 //
+//
+//
+//type Query {
+//   characters: [Character!]!
+// }
+//
+//
 // Type Definition
 const typeDefs = `
 type Query {
@@ -97,7 +105,7 @@ type Character {
   name: String!,
   species: String!,
   affiliation: affiliation!
-  weapons: [String!]
+  weapon: String!
 }
 
 enum affiliation {
@@ -106,7 +114,7 @@ enum affiliation {
 }
 
 type Mutation {
-  post(name: String!, species: String!, affiliation: affiliation!, weapons: [String!]): Character!
+  post(name: String!, species: String!, affiliation: affiliation!, weapon: String!): Character!
 }
 `;
 
@@ -116,37 +124,31 @@ const characters = [
     name: "Han Solo",
     species: "Human",
     affiliation: "REBEL_ALLIANCE",
-    weapons: ["blaster rifle"]
+    weapon: "blaster rifle"
   },
   {
     name: "Chewbacca",
     species: "Wookie",
     affiliation: "REBEL_ALLIANCE",
-    weapons: ["blaster rifle", "bowcaster"]
+    weapon: "bowcaster"
   }
 ];
 
 // resolving queries
 const resolvers = {
   Query: {
-    characters: () => characters
-  },
-  Character: {
-    name: parent => parent.name,
-    species: parent => parent.species,
-    affiliation: parent => parent.affiliation,
-    weapons: parent => parent.weapons
+    characters: (root, args, context, info) => {
+      return context.prisma.characters();
+    }
   },
   Mutation: {
-    post: (parent, args) => {
-      const character = {
+    post: (root, args, context) => {
+      return context.prisma.createCharacter({
         name: args.name,
         species: args.species,
         affiliation: args.affiliation,
-        weapons: args.weapons
-      };
-      characters.push(character);
-      return character;
+        weapon: args.weapon
+      });
     }
   }
 };
@@ -154,6 +156,7 @@ const resolvers = {
 // Server
 const server = new GraphQLServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: { prisma }
 });
 server.start(() => console.log(`Server is running on http://localhost:4000`));
